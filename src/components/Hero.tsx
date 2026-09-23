@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Language } from '../types';
 import { translations } from '../data/translations';
 import { Calendar, Phone, Sparkles, MapPin, CheckCircle2, Clock } from 'lucide-react';
+import heroClinicImg from '../assets/images/hero_clinic_dentist_1790166971925.jpg';
 
 interface HeroProps {
   lang: Language;
@@ -10,6 +11,7 @@ interface HeroProps {
 
 export const Hero: React.FC<HeroProps> = ({ lang, onBookClick }) => {
   const t = translations[lang];
+  const [imgSrc, setImgSrc] = useState<string>(heroClinicImg || '/images/hero-clinic.jpg');
 
   return (
     <section className="relative overflow-hidden pt-8 pb-16 lg:pt-14 lg:pb-24 bg-gradient-to-b from-teal-50/40 via-[#F8FAF9] to-[#F8FAF9]">
@@ -142,11 +144,18 @@ export const Hero: React.FC<HeroProps> = ({ lang, onBookClick }) => {
           <div className="lg:col-span-5 relative">
             <div className="relative rounded-3xl overflow-hidden shadow-xl border border-slate-200/90 bg-slate-100 aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/5]">
               <img
-                src="/src/assets/images/hero_clinic_dentist_1790166971925.jpg"
+                src={imgSrc}
                 alt="Al Tawash Dental Center dentist and modern operatory in Riffa Bahrain"
                 className="w-full h-full object-cover object-center"
                 referrerPolicy="no-referrer"
                 loading="eager"
+                onError={() => {
+                  if (imgSrc !== '/images/hero-clinic.jpg') {
+                    setImgSrc('/images/hero-clinic.jpg');
+                  } else {
+                    setImgSrc('https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=1200&auto=format&fit=crop');
+                  }
+                }}
               />
               
               {/* Clean gradient scrim for legible text overlay */}

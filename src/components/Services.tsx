@@ -2,6 +2,9 @@ import React from 'react';
 import { Language } from '../types';
 import { translations } from '../data/translations';
 import { Check, Calendar } from 'lucide-react';
+import generalDentistryImg from '../assets/images/service_general_dentistry_1790167097908.jpg';
+import orthoImg from '../assets/images/service_orthodontics_1790167086088.jpg';
+import receptionImg from '../assets/images/clinic_reception_interior_1790167109971.jpg';
 
 interface ServicesProps {
   lang: Language;
@@ -18,7 +21,9 @@ export const Services: React.FC<ServicesProps> = ({ lang, onSelectService }) => 
       category: t.services.general.category,
       desc: t.services.general.desc,
       features: t.services.general.features,
-      image: '/src/assets/images/service_general_dentistry_1790167097908.jpg',
+      image: generalDentistryImg || '/images/service-general.jpg',
+      localFallback: '/images/service-general.jpg',
+      cdnFallback: 'https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?q=80&w=800&auto=format&fit=crop',
       alt: 'General dentistry operatory with dental examination light and digital radiography screen',
       badge: lang === 'ar' ? 'عناية وقائية وترميمية' : 'Preventive & Restorative',
     },
@@ -28,7 +33,9 @@ export const Services: React.FC<ServicesProps> = ({ lang, onSelectService }) => 
       category: t.services.ortho.category,
       desc: t.services.ortho.desc,
       features: t.services.ortho.features,
-      image: '/src/assets/images/service_orthodontics_1790167086088.jpg',
+      image: orthoImg || '/images/service-ortho.jpg',
+      localFallback: '/images/service-ortho.jpg',
+      cdnFallback: 'https://images.unsplash.com/photo-1606811841689-23dfddce3e95?q=80&w=800&auto=format&fit=crop',
       alt: 'Precision clear aligners and orthodontic braces appliances on medical steel tray',
       badge: lang === 'ar' ? 'تقويم شفاف ومعدني' : 'Clear Aligners & Braces',
     },
@@ -38,7 +45,9 @@ export const Services: React.FC<ServicesProps> = ({ lang, onSelectService }) => 
       category: t.services.consultation.category,
       desc: t.services.consultation.desc,
       features: t.services.consultation.features,
-      image: '/src/assets/images/clinic_reception_interior_1790167109971.jpg',
+      image: receptionImg || '/images/clinic-interior.jpg',
+      localFallback: '/images/clinic-interior.jpg',
+      cdnFallback: 'https://images.unsplash.com/photo-1629909615184-74f495363b67?q=80&w=800&auto=format&fit=crop',
       alt: 'Al Tawash Dental Center calm reception lounge and patient consultation area in Riffa',
       badge: lang === 'ar' ? 'عرض مجاني نشط' : 'Current Active Offer',
     },
@@ -78,6 +87,15 @@ export const Services: React.FC<ServicesProps> = ({ lang, onSelectService }) => 
                   className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-300"
                   referrerPolicy="no-referrer"
                   loading="lazy"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    if (!target.dataset.triedLocal && service.localFallback) {
+                      target.dataset.triedLocal = 'true';
+                      target.src = service.localFallback;
+                    } else if (service.cdnFallback && target.src !== service.cdnFallback) {
+                      target.src = service.cdnFallback;
+                    }
+                  }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
                 
