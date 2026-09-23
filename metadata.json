@@ -1,0 +1,6 @@
+{
+  "name": "Al Tawash Dental Center",
+  "description": "Premier dental clinic in Riffa, Bahrain offering general dentistry, orthodontics, and free consultations. Office 12, Mashtan Ave, Bukowarah.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
